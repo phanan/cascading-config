@@ -13,9 +13,17 @@ class CascadingConfigServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config.local' => config_path('../'),
+            __DIR__.'/config.local' => config_path('../config.local'),
         ]);
+    }
 
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
         $envConfigPath = config_path() . '/../config.' . env('APP_ENV');
         $config = app('config');
 
@@ -35,16 +43,6 @@ class CascadingConfigServiceProvider extends ServiceProvider {
             // Replace any matching values in the old config with the new ones.
             $config->set($key_name, array_replace_recursive($old_values, $new_values));
         }
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        
     }
 
 }
