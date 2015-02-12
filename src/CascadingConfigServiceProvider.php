@@ -13,7 +13,7 @@ class CascadingConfigServiceProvider extends ServiceProvider {
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config.local' => config_path('../config.local'),
+            __DIR__.'/config.local' => config_path('../'),
         ]);
 
         $envConfigPath = config_path() . '/../config.' . env('APP_ENV');
