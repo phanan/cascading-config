@@ -1,20 +1,19 @@
-# Remote
+# Cascading Config
 
-*Remote* is a simple package that brings the ability to do remote connections back into Laravel 5. This package makes use of the awesome [phpseclib](https://github.com/phpseclib/phpseclib) behind the scene.
+A simple package that brings the cascading configuration system back into Laravel 5. 
 
 ## Requirements
 
-* PHP >= 5.4
-* Anything required by phpseclib
+* Laravel 5, duh!
 
 ## Installation
 
-First, require `phanan/remote` into your `composer.json` and run `composer update`.
+First, require `phanan/cascading-config` into your `composer.json` and run `composer update`.
 
 ``` 
     "require": {
         "laravel/framework": "5.0.*",
-        "phanan/remote": "dev-master"
+        "phanan/cascading-config": "dev-master"
     },
 ```
 
@@ -28,53 +27,35 @@ After the package is downloaded, open `config/app.php` and add its service provi
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
 
-        'PhanAn\Remote\RemoteServiceProvider',
+        'PhanAn\CascadingConfig\CascadingConfigProvider',
 
     ],
 ```
 
-Now you need a sample configuration file:
+An environment-based configuration directory should have a name with this format `config.{APP_ENV}`, and live in the same directory with the default `config` dir. For a start, let's create the directory for your `local` environment:
 
 ``` bash
 php artisan vendor:publish
 ```
 
-Look for a `remote.php` file under your `config` directory and modify it to fit your needs.
+Your working directory now should have something like this:
 
+```
+├── config
+│   ├── app.php
+│   ├── auth.php
+│   ├── cache.php
+│   ├── compile.php
+│   ├── ...
+├── config.local
+│   └── app.php
+```
 
 ## Usage
 
-Using `Remote` is very simple: Just initialize a `PhanAn\Remote\Remote` object, says `$connection`. You don't even need to specify an argument -- `Remote` will pick the default configuration for you, and log you in.
-
-
-Here's where the magic happens. Literally, `Remote` makes use of the magic function `__call()` to pass all unrecognized methods to the `phpseclib\Net\SFTP` object underneath. Which means, you can call any `phpseclib\Net\SFTP` method directly on a `Remote` object:
-
-``` php
-<?php namespace App\Http\Controllers;
-
-use PhanAn\Remote\Remote;
-
-class RemoteController extends Controller {
-
-    public function index()
-    {
-        $connection = new Remote();
-
-        // Of course you can specify an configured environment name, like this
-        // $connection = new Remote('staging');
-
-        // Create a file with some dummy content
-        $connection->put('dodge', 'Much remote so convenience wow.');
-
-        // List a dir
-        $connection->exec('ls -a');
-    }
-
-}
-
-```
-
-Check phpseclib's official [SFTP Feature List](http://phpseclib.sourceforge.net/sftp/intro.html) for what you can do.
+1. Fill the configuration into your environment-based config directory (`config.local`, `config.staging`, `config.production`), just like what you've always done in Laravel 4
+1. Call `config($key)` just like what you've always done in Laravel 5
+1. Seriously?!
 
 ## Todo
 
