@@ -1,7 +1,7 @@
 {
   "name": "phanan/cascading-config",
   "description": "Bringing the cascading configuration system back to Laravel 5.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "keywords": [
     "laravel",
     "configuration",
