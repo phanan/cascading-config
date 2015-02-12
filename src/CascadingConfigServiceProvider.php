@@ -25,6 +25,12 @@ class CascadingConfigServiceProvider extends ServiceProvider {
     public function register()
     {
         $envConfigPath = config_path() . '/../config.' . env('APP_ENV');
+
+        if (!file_exists($envConfigPath) || !is_dir($envConfigPath)) {
+            // Nothing to do here
+            return;
+        }
+
         $config = app('config');
 
         foreach (Finder::create()->files()->name('*.php')->in($envConfigPath) as $file)
