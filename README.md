@@ -27,7 +27,7 @@ After the package is downloaded, open `config/app.php` and add its service provi
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
 
-        'PhanAn\CascadingConfig\CascadingConfigProvider',
+        'PhanAn\CascadingConfig\CascadingConfigServiceProvider',
 
     ],
 ```
