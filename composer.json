@@ -1,0 +1,33 @@
+{
+  "name": "phanan/cascading-config",
+  "description": "Bringing the cascading configuration system back to Laravel 5.",
+  "version": "dev-master",
+  "keywords": [
+    "laravel",
+    "configuration",
+    "config",
+    "cascading",
+    "cascade"
+  ],
+  "homepage": "https://github.com/phanan/cascading-config",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Phan An",
+      "email": "me@phanan.net",
+      "homepage": "http://phanan.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "illuminate/support": "5.0.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "PhanAn\\CascadingConfig\\": "src"
+    }
+  }
+}
