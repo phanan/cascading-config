@@ -25,7 +25,7 @@ class CascadingConfigServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $env_config_path = realpath(config_path('../config.' . env('APP_ENV')));
+        $env_config_path = realpath(config_path('../config.' . app('env')));
 
         if (!file_exists($env_config_path) || !is_dir($env_config_path)) {
             // Nothing to do here
