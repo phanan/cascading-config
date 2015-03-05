@@ -66,4 +66,4 @@ config.local
 
 ## License
 
-MIT @ phanan.
+MIT © [Phan An](http://phanan.net)
