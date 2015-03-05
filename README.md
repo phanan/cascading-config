@@ -64,10 +64,6 @@ config.local
 1. Call `config($key)` just like what you've always done in Laravel 5
 1. Seriously?!
 
-## Todo
-
-Write tests.
-
 ## License
 
 MIT @ phanan.
