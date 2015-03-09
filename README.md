@@ -1,4 +1,4 @@
-# Cascading Config
+# Cascading Config [![Build Status](https://travis-ci.org/phanan/cascading-config.svg?branch=master)](https://travis-ci.org/phanan/cascading-config)
 
 A simple package that brings the cascading configuration system back into Laravel 5.
 
