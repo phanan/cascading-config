@@ -29,7 +29,6 @@ class CascadingConfigServiceProvider extends ServiceProvider {
 
         if (!file_exists($env_config_path) || !is_dir($env_config_path)) {
             // Nothing to do here
-            var_dump("$env_config_path not exists.");
             return;
         }
 
