@@ -7,7 +7,7 @@ php:
 
 branches:
   only:
-    - master
+    - travis
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
