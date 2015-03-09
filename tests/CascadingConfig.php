@@ -40,8 +40,6 @@ class CascadingConfigTest extends PHPUnit_Framework_TestCase {
         $this->f->put($this->app->configPath() . '/../config.foo/app.php', "<?php return ['url' => 'http://cascaded.dev', 'foo' => 'bar'];");
         $this->setupServiceProvider();
 
-        fwrite(STDERR, print_r($this->app['config']->get('app'), TRUE));
-        
         $this->assertEquals($this->app['config']->get('app.url'), 'http://cascaded.dev');
         $this->assertEquals($this->app['config']->get('app.foo'), 'bar');
 
@@ -53,8 +51,6 @@ class CascadingConfigTest extends PHPUnit_Framework_TestCase {
         $this->f->put($this->app->configPath() . '/../config.foo/nested/sample.php', "<?php return ['foo' => 'bar'];");
         $this->setupServiceProvider();
 
-        fwrite(STDERR, print_r($this->app['config']->get('nested'), TRUE));
-        
         $this->assertEquals($this->app['config']->get('nested.sample.foo'), 'bar');
     }
 
