@@ -1,7 +1,7 @@
 <?php namespace PhanAn\CascadingConfig;
 
-use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\Finder;
+use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\SplFileInfo;
 
 class CascadingConfigServiceProvider extends ServiceProvider {
@@ -27,7 +27,7 @@ class CascadingConfigServiceProvider extends ServiceProvider {
     {
         $env_config_path = (new \SplFileInfo(dirname(config_path()) . '/config.' . app('env')))->getRealPath();
 
-        if (!file_exists($env_config_path) || !is_dir($env_config_path)) {
+        if ( ! file_exists($env_config_path) ||  ! is_dir($env_config_path)) {
             // Nothing to do here
             return;
         }
