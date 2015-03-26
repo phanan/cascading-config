@@ -1,7 +1,6 @@
 {
   "name": "phanan/cascading-config",
   "description": "Bringing the cascading configuration system back to Laravel 5.",
-  "version": "dev-master",
   "keywords": [
     "laravel",
     "laravel 5",
