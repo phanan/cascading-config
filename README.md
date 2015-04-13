@@ -21,7 +21,7 @@ First, require `phanan/cascading-config` into your `composer.json` and run `comp
 ``` 
     "require": {
         "laravel/framework": "5.0.*",
-        "phanan/cascading-config": "dev-master"
+        "phanan/cascading-config": "~1.0"
     },
 ```
 
