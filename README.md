@@ -66,7 +66,68 @@ config.local
 
 1. Fill the configuration into your environment-based config directory (`config.local`, `config.staging`, `config.production`), just like what you've always done in Laravel 4
 1. Call `config($key)` just like what you've always done in Laravel 5
-1. Seriously?!
+
+## Notes
+
+Because of the way `array_merge_recursive()` works, a config key with value being an indexed (non-associative) array (for instance, `app.providers`) will have the value's items overridden. For example, having `config/app.php`:
+
+```
+$providers = [
+    'Illuminate\Foundation\Providers\ArtisanServiceProvider',
+    'Illuminate\Auth\AuthServiceProvider',
+    'Illuminate\Bus\BusServiceProvider',
+    'Illuminate\Cache\CacheServiceProvider',
+];
+```
+
+and `config.local/app.php`:
+
+```
+$providers = [
+    'LocalServiceProvider',
+    'AnotherLocalServiceProvider',
+    'YetAnotherLocalServiceProvider',
+];
+```
+
+will result in:
+
+```
+Array 
+(
+    [0] => LocalServiceProvider // OVERRIDING
+    [1] => AnotherLocalServiceProvider // OVERRIDING
+    [2] => YetAnotherLocalServiceProvider // OVERRIDING
+    [3] => Illuminate\Cache\CacheServiceProvider
+);
+```
+
+If you want the two values to be merged instead, use Laravel's `append_config()` helper:
+
+`config.local/app.php`:
+
+```
+$providers = append_config([
+    'LocalServiceProvider',
+    'AnotherLocalServiceProvider',
+    'YetAnotherLocalServiceProvider',
+]);
+```
+
+yields:
+
+```
+Array 
+(
+    [0] => Illuminate\Foundation\Providers\ArtisanServiceProvider
+    [1] => Illuminate\Auth\AuthServiceProvider
+    [2] => Illuminate\Bus\BusServiceProvider
+    [3] => Illuminate\Cache\CacheServiceProvider
+    [10000] => LocalServiceProvider
+    [10001] => AnotherLocalServiceProvider
+    [10002] => YetAnotherLocalServiceProvider
+);
+```
 
 ## License
 
