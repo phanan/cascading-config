@@ -69,7 +69,7 @@ config.local
 
 ## Notes
 
-Because of the way `array_merge_recursive()` works, a config key with value being an indexed (non-associative) array (for instance, `app.providers`) will have the value's items overridden. See #6 if for more details on this behavior, and how to work around it.
+Because of the way `array_merge_recursive()` works, a config key with value being an indexed (non-associative) array (for instance, `app.providers`) will have the value's items overridden. See [#6](https://github.com/phanan/cascading-config/issues/6) for more details on this behavior, and how to work around it.
 
 ## License
 
