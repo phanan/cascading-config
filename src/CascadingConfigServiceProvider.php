@@ -1,5 +1,8 @@
-<?php namespace PhanAn\CascadingConfig;
+<?php 
 
+namespace PhanAn\CascadingConfig;
+
+use SplFileInfo as SysSplFileInfo;
 use Symfony\Component\Finder\Finder;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\SplFileInfo;
@@ -18,6 +21,7 @@ class CascadingConfigServiceProvider extends ServiceProvider {
         ]);
     }
 
+
     /**
      * Register the service provider.
      *
@@ -25,17 +29,16 @@ class CascadingConfigServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $env_config_path = (new \SplFileInfo(dirname(config_path()) . '/config.' . app('env')))->getRealPath();
+        $env_config_path = (new SysSplFileInfo(dirname(config_path()) . '/config.' . app('env')))->getRealPath();
 
-        if ( ! file_exists($env_config_path) ||  ! is_dir($env_config_path)) {
+        if (!file_exists($env_config_path) ||  !is_dir($env_config_path)) {
             // Nothing to do here
             return;
         }
 
         $config = app('config');
 
-        foreach (Finder::create()->files()->name('*.php')->in($env_config_path) as $file)
-        {
+        foreach (Finder::create()->files()->name('*.php')->in($env_config_path) as $file) {
             // Run through all PHP files in the current environment's config directory.
             // With each file, check if there's a current config key with the name.
             // If there's not, initialize it as an empty array.
@@ -52,6 +55,7 @@ class CascadingConfigServiceProvider extends ServiceProvider {
         }
     }
 
+
     /**
      * Get the configuration file nesting path.
      * This method is shamelessly copied from Illuminate\Foundation\Boostrap\LoadConfiguration.php
@@ -63,8 +67,7 @@ class CascadingConfigServiceProvider extends ServiceProvider {
     {
         $directory = dirname($file->getRealPath());
 
-        if ($tree = trim(str_replace($env_config_path, '', $directory), DIRECTORY_SEPARATOR))
-        {
+        if ($tree = trim(str_replace($env_config_path, '', $directory), DIRECTORY_SEPARATOR)) {
             $tree = str_replace(DIRECTORY_SEPARATOR, '.', $tree) . '.';
         }
 
