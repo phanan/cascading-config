@@ -7,8 +7,8 @@ use Symfony\Component\Finder\Finder;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\SplFileInfo;
 
-class CascadingConfigServiceProvider extends ServiceProvider {
-
+class CascadingConfigServiceProvider extends ServiceProvider 
+{
     /**
      * Bootstrap the application events.
      *
@@ -20,7 +20,6 @@ class CascadingConfigServiceProvider extends ServiceProvider {
             __DIR__.'/config.local' => config_path('../config.local'),
         ]);
     }
-
 
     /**
      * Register the service provider.
@@ -55,10 +54,9 @@ class CascadingConfigServiceProvider extends ServiceProvider {
         }
     }
 
-
     /**
      * Get the configuration file nesting path.
-     * This method is shamelessly copied from Illuminate\Foundation\Boostrap\LoadConfiguration.php
+     * This method is shamelessly copied from \Illuminate\Foundation\Boostrap\LoadConfiguration.php
      *
      * @param  \Symfony\Component\Finder\SplFileInfo  $file
      * @return string
@@ -73,5 +71,4 @@ class CascadingConfigServiceProvider extends ServiceProvider {
 
         return $tree;
     }
-
 }
