@@ -30,12 +30,14 @@ After the package is downloaded, open `config/app.php` and add its service provi
 ``` php
     'providers' => [
 
-        // ...
-        'App\Providers\ConfigServiceProvider',
-        'App\Providers\EventServiceProvider',
-        'App\Providers\RouteServiceProvider',
-
-        'PhanAn\CascadingConfig\CascadingConfigServiceProvider',
+        /*
+         * ...
+         */
+        App\Providers\AppServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+        
+        PhanAn\CascadingConfig\CascadingConfigServiceProvider::class,
 
     ],
 ```
