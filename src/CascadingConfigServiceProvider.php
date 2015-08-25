@@ -1,13 +1,14 @@
-<?php 
+<?php
+
 
 namespace PhanAn\CascadingConfig;
 
+use Illuminate\Support\ServiceProvider;
 use SplFileInfo as SysSplFileInfo;
 use Symfony\Component\Finder\Finder;
-use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\SplFileInfo;
 
-class CascadingConfigServiceProvider extends ServiceProvider 
+class CascadingConfigServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.
@@ -28,7 +29,7 @@ class CascadingConfigServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $env_config_path = (new SysSplFileInfo(dirname(config_path()) . '/config.' . app('env')))->getRealPath();
+        $env_config_path = (new SysSplFileInfo(dirname(config_path()).'/config.'.app('env')))->getRealPath();
 
         if (!file_exists($env_config_path) ||  !is_dir($env_config_path)) {
             // Nothing to do here
@@ -41,10 +42,10 @@ class CascadingConfigServiceProvider extends ServiceProvider
             // Run through all PHP files in the current environment's config directory.
             // With each file, check if there's a current config key with the name.
             // If there's not, initialize it as an empty array.
-            // Then, use array_replace_recursive() to merge the environment config values 
+            // Then, use array_replace_recursive() to merge the environment config values
             // into the base values.
-            
-            $key_name = $this->getConfigurationNesting($env_config_path, $file) . basename($file->getRealPath(), '.php');
+
+            $key_name = $this->getConfigurationNesting($env_config_path, $file).basename($file->getRealPath(), '.php');
 
             $old_values = $config->get($key_name) ?: [];
             $new_values = require $file->getRealPath();
@@ -56,9 +57,10 @@ class CascadingConfigServiceProvider extends ServiceProvider
 
     /**
      * Get the configuration file nesting path.
-     * This method is shamelessly copied from \Illuminate\Foundation\Boostrap\LoadConfiguration.php
+     * This method is shamelessly copied from \Illuminate\Foundation\Boostrap\LoadConfiguration.php.
      *
-     * @param  \Symfony\Component\Finder\SplFileInfo  $file
+     * @param \Symfony\Component\Finder\SplFileInfo $file
+     *
      * @return string
      */
     private function getConfigurationNesting($env_config_path, SplFileInfo $file)
@@ -66,7 +68,7 @@ class CascadingConfigServiceProvider extends ServiceProvider
         $directory = dirname($file->getRealPath());
 
         if ($tree = trim(str_replace($env_config_path, '', $directory), DIRECTORY_SEPARATOR)) {
-            $tree = str_replace(DIRECTORY_SEPARATOR, '.', $tree) . '.';
+            $tree = str_replace(DIRECTORY_SEPARATOR, '.', $tree).'.';
         }
 
         return $tree;

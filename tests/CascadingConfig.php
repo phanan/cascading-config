@@ -1,15 +1,14 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Config\Repository;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Application;
 use PhanAn\CascadingConfig\CascadingConfigServiceProvider;
 
-
-class CascadingConfigTest extends PHPUnit_Framework_TestCase {
-
-    var $app;
-    var $f;
+class CascadingConfigTest extends PHPUnit_Framework_TestCase
+{
+    public $app;
+    public $f;
 
     public function setUp()
     {
@@ -31,24 +30,23 @@ class CascadingConfigTest extends PHPUnit_Framework_TestCase {
 
     public function tearDown()
     {
-        $this->f->delete($this->app->configPath() . '/../config.foo');
+        $this->f->delete($this->app->configPath().'/../config.foo');
     }
 
     public function testConfigCascaded()
     {
-        $this->f->makeDirectory($this->app->configPath() . '/../config.foo', 0755, TRUE, TRUE);
-        $this->f->put($this->app->configPath() . '/../config.foo/app.php', "<?php return ['url' => 'http://cascaded.dev', 'foo' => 'bar'];");
+        $this->f->makeDirectory($this->app->configPath().'/../config.foo', 0755, true, true);
+        $this->f->put($this->app->configPath().'/../config.foo/app.php', "<?php return ['url' => 'http://cascaded.dev', 'foo' => 'bar'];");
         $this->setupServiceProvider();
 
         $this->assertEquals($this->app['config']->get('app.url'), 'http://cascaded.dev');
         $this->assertEquals($this->app['config']->get('app.foo'), 'bar');
-
     }
 
-    public function testNestedConfigSupported() 
+    public function testNestedConfigSupported()
     {
-        $this->f->makeDirectory($this->app->configPath() . '/../config.foo/nested', 0755, TRUE, TRUE);
-        $this->f->put($this->app->configPath() . '/../config.foo/nested/sample.php', "<?php return ['foo' => 'bar'];");
+        $this->f->makeDirectory($this->app->configPath().'/../config.foo/nested', 0755, true, true);
+        $this->f->put($this->app->configPath().'/../config.foo/nested/sample.php', "<?php return ['foo' => 'bar'];");
         $this->setupServiceProvider();
 
         $this->assertEquals($this->app['config']->get('nested.sample.foo'), 'bar');
@@ -58,7 +56,7 @@ class CascadingConfigTest extends PHPUnit_Framework_TestCase {
     {
         $provider = new CascadingConfigServiceProvider($this->app);
         $this->app->register($provider);
+
         return $provider;
     }
-
 }
