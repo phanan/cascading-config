@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'nested_support' => TRUE,
+    'nested_support' => true,
 ];
