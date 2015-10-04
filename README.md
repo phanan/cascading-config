@@ -66,8 +66,8 @@ config.local
 
 ## Usage
 
-1. Fill the configuration into your environment-based config directory (`config.local`, `config.staging`, `config.production`), just like what you've always done in Laravel 4
-1. Call `config($key)` just like what you've always done in Laravel 5
+1. Fill the configuration into your environment-based config directory (`config.local`, `config.staging`, `config.production`), just like you've always done in Laravel 4
+1. Call `config($key)` just like you've always done in Laravel 5
 
 ## Notes
 
