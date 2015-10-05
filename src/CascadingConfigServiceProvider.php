@@ -1,6 +1,5 @@
 <?php
 
-
 namespace PhanAn\CascadingConfig;
 
 use Illuminate\Support\ServiceProvider;
