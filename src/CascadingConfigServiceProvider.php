@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace PhanAn\CascadingConfig;
 
@@ -7,68 +7,102 @@ use Symfony\Component\Finder\Finder;
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\SplFileInfo;
 
-class CascadingConfigServiceProvider extends ServiceProvider 
+class CascadingConfigServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.
-     *
-     * @return void
      */
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/config.local' => config_path('../config.local'),
+            __DIR__.'/config.local' => $this->getConfigPath('../config.local'),
         ]);
     }
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
-        $env_config_path = (new SysSplFileInfo(dirname(config_path()) . '/config.' . app('env')))->getRealPath();
+        $env = $this->app->environment();
 
-        if (!file_exists($env_config_path) ||  !is_dir($env_config_path)) {
+        $envConfigPath = (new SysSplFileInfo(dirname($this->getConfigPath())."/config.$env"))->getRealPath();
+
+        if (!file_exists($envConfigPath) ||  !is_dir($envConfigPath)) {
             // Nothing to do here
             return;
         }
 
-        $config = app('config');
+        $config = $this->app->make('config');
 
-        foreach (Finder::create()->files()->name('*.php')->in($env_config_path) as $file) {
+        foreach (Finder::create()->files()->name('*.php')->in($envConfigPath) as $file) {
             // Run through all PHP files in the current environment's config directory.
             // With each file, check if there's a current config key with the name.
             // If there's not, initialize it as an empty array.
-            // Then, use array_replace_recursive() to merge the environment config values 
+            // Then, use array_replace_recursive() to merge the environment config values
             // into the base values.
-            
-            $key_name = $this->getConfigurationNesting($env_config_path, $file) . basename($file->getRealPath(), '.php');
 
-            $old_values = $config->get($key_name) ?: [];
-            $new_values = require $file->getRealPath();
+            $keyName = $this->getConfigurationNesting($envConfigPath, $file).basename($file->getRealPath(), '.php');
+
+            $oldValues = $config->get($keyName) ?: [];
+            $newValues = require $file->getRealPath();
 
             // Replace any matching values in the old config with the new ones.
-            $config->set($key_name, array_replace_recursive($old_values, $new_values));
+            $config->set($keyName, array_replace_recursive($oldValues, $newValues));
         }
     }
 
     /**
      * Get the configuration file nesting path.
-     * This method is shamelessly copied from \Illuminate\Foundation\Boostrap\LoadConfiguration.php
+     * This method is shamelessly copied from \Illuminate\Foundation\Bootstrap\LoadConfiguration.php.
      *
-     * @param  \Symfony\Component\Finder\SplFileInfo  $file
+     * @param string                                $envConfigPath
+     * @param \Symfony\Component\Finder\SplFileInfo $file
+     *
      * @return string
      */
-    private function getConfigurationNesting($env_config_path, SplFileInfo $file)
+    protected function getConfigurationNesting($envConfigPath, SplFileInfo $file)
     {
         $directory = dirname($file->getRealPath());
 
-        if ($tree = trim(str_replace($env_config_path, '', $directory), DIRECTORY_SEPARATOR)) {
-            $tree = str_replace(DIRECTORY_SEPARATOR, '.', $tree) . '.';
+        if ($tree = trim(str_replace($envConfigPath, '', $directory), DIRECTORY_SEPARATOR)) {
+            $tree = str_replace(DIRECTORY_SEPARATOR, '.', $tree).'.';
         }
 
         return $tree;
+    }
+
+    /**
+     * Get the path to the config directory.
+     *
+     * @param string $path
+     *
+     * @return string
+     *
+     * @throws \Exception
+     */
+    protected function getConfigPath($path = null)
+    {
+        // Lumen >=5.1.6 exposes a getConfigurationPath() method.
+        if ($this->isLumen()) {
+            return $this->app->getConfigurationPath().$path;
+        }
+
+        // Laravel comes with a config_path() helper.
+        if (function_exists('config_path')) {
+            return config_path($path);
+        }
+
+        throw new \Exception('CascadingConfig error: Unsupported Laravel/Lumen version.');
+    }
+
+    /**
+     * Check if the current application is a Lumen instance.
+     *
+     * @return bool
+     */
+    protected function isLumen()
+    {
+        return is_a($this->app, 'Laravel\Lumen\Application');
     }
 }

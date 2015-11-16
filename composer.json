@@ -19,10 +19,10 @@
     }
   ],
   "require": {
-    "illuminate/support": "5.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0",
+    "phpunit/phpunit": "~5.0",
+    "laravel/lumen-framework": "~5.1.6",
     "laravel/framework": "~5.1"
   },
   "autoload": {

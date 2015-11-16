@@ -1,14 +1,15 @@
-# Cascading Config 
+# Cascading Config
 
 [![Build Status](https://travis-ci.org/phanan/cascading-config.svg?branch=master)](https://travis-ci.org/phanan/cascading-config)
 [![Dependency Status](https://gemnasium.com/phanan/cascading-config.svg)](https://gemnasium.com/phanan/cascading-config)
 [![License](https://poser.pugx.org/phanan/cascading-config/license.svg)](https://packagist.org/packages/phanan/cascading-config)
 
-A simple package that brings the cascading configuration system back into Laravel 5.
+A simple package that brings the cascading configuration system back into Laravel 5 and its sister project, Lumen.
 
 ## Requirements
 
-* Laravel 5, duh!
+* Laravel 5, or
+* Lumen >=5.1
 
 ## Features
 * Laravel-4 style cascading config (can't believe I'm writing this)
@@ -16,39 +17,18 @@ A simple package that brings the cascading configuration system back into Larave
 
 ## Installation
 
-First, require `phanan/cascading-config` into your `composer.json` and run `composer update`.
+First, require `phanan/cascading-config` into your `composer.json` and run `composer update`:
 
-``` 
+```
     "require": {
-        "laravel/framework": "5.1.*",
-        "phanan/cascading-config": "~1.0"
+        "phanan/cascading-config": "~2.0"
     },
 ```
 
-After the package is downloaded, open `config/app.php` and add its service provider class:
+An environment-based configuration directory should have a name with this format `config.{APP_ENV}`, and reside in the same directory as the default `config` dir. For Laravel, `php artisan vendor:publish`
+will create a sample directory for your `local` environment. For Lumen, you'll have to create the directories manually.
 
-``` php
-    'providers' => [
-
-        /*
-         * ...
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        
-        PhanAn\CascadingConfig\CascadingConfigServiceProvider::class,
-
-    ],
-```
-
-An environment-based configuration directory should have a name with this format `config.{APP_ENV}`, and live in the same directory with the default `config` dir. For a start, let's create the directory for your `local` environment:
-
-``` bash
-php artisan vendor:publish
-```
-
-Your working directory now should have something like this:
+Your application structure now should have something like this:
 
 ```
 config
@@ -64,10 +44,43 @@ config.local
     └── app.php
 ```
 
+Fill the configuration into your environment-based config directory (`config.local`, `config.staging`, `config.production`), just like what you've always done in Laravel 4,
+
 ## Usage
 
-1. Fill the configuration into your environment-based config directory (`config.local`, `config.staging`, `config.production`), just like what you've always done in Laravel 4
-1. Call `config($key)` just like what you've always done in Laravel 5
+### For Laravel
+
+1. Add the package's service provider class into `config/app.php`:
+
+    ``` php
+        'providers' => [
+            /*
+             * ...
+             */
+            App\Providers\AppServiceProvider::class,
+            App\Providers\EventServiceProvider::class,
+            App\Providers\RouteServiceProvider::class,
+
+            PhanAn\CascadingConfig\CascadingConfigServiceProvider::class,
+        ],
+    ```
+1.  Call `config($key)`
+
+### For Lumen
+
+1. Register the service provider class in `bootstrap/app.php`:
+
+    ```php
+    // $app->register(App\Providers\AppServiceProvider::class);
+    // $app->register(App\Providers\EventServiceProvider::class);
+    $app->register(PhanAn\CascadingConfig\CascadingConfigServiceProvider::class);
+    ```
+1. You may also want to uncomment this line to enable multi-environment support:
+
+    ```php
+    Dotenv::load(__DIR__.'/../');
+    ```
+1. Call `config($key)`
 
 ## Notes
 
