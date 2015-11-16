@@ -77,9 +77,9 @@ class CascadingConfigServiceProvider extends ServiceProvider
      *
      * @param string $path
      *
-     * @return string
-     *
      * @throws \Exception
+     *
+     * @return string
      */
     protected function getConfigPath($path = null)
     {

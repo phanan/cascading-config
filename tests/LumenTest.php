@@ -1,8 +1,8 @@
 <?php
 
-use Laravel\Lumen\Application;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Config\Repository;
+use Illuminate\Filesystem\Filesystem;
+use Laravel\Lumen\Application;
 use PhanAn\CascadingConfig\CascadingConfigServiceProvider;
 
 class CascadingConfigTest extends PHPUnit_Framework_TestCase
