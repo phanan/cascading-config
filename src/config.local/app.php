@@ -3,7 +3,7 @@
 return [
     //
     // You can overwrite an existing config variable
-    'debug' => TRUE,
+    'debug' => true,
 
     // Or you can create a new one, just like old days.
     // Arrays are perfectly OK.

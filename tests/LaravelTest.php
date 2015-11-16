@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Config\Repository;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Application;
 use PhanAn\CascadingConfig\CascadingConfigServiceProvider;
 
 class LaravelTest extends PHPUnit_Framework_TestCase

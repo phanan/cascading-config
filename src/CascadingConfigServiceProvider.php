@@ -2,9 +2,9 @@
 
 namespace PhanAn\CascadingConfig;
 
+use Illuminate\Support\ServiceProvider;
 use SplFileInfo as SysSplFileInfo;
 use Symfony\Component\Finder\Finder;
-use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\SplFileInfo;
 
 class CascadingConfigServiceProvider extends ServiceProvider
