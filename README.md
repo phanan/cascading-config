@@ -37,9 +37,13 @@ config
 ├── cache.php
 ├── compile.php
 ├── database.php
+├── mail.php
 └── ...
 config.local
 ├── app.php
+├── auth.php
+├── cache.php
+├── mail.php
 └── nested
     └── app.php
 ```
@@ -53,17 +57,18 @@ Fill the configuration into your environment-based config directory (`config.loc
 1. Add the package's service provider class into `config/app.php`:
 
     ``` php
-        'providers' => [
-            /*
-             * ...
-             */
-            App\Providers\AppServiceProvider::class,
-            App\Providers\EventServiceProvider::class,
-            App\Providers\RouteServiceProvider::class,
+    'providers' => [
+        /*
+         * ...
+         */
+        App\Providers\AppServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
 
-            PhanAn\CascadingConfig\CascadingConfigServiceProvider::class,
-        ],
+        PhanAn\CascadingConfig\CascadingConfigServiceProvider::class,
+    ],
     ```
+    
 1.  Call `config($key)`
 
 ### For Lumen
@@ -75,11 +80,21 @@ Fill the configuration into your environment-based config directory (`config.loc
     // $app->register(App\Providers\EventServiceProvider::class);
     $app->register(PhanAn\CascadingConfig\CascadingConfigServiceProvider::class);
     ```
-1. You may also want to uncomment this line to enable multi-environment support:
+
+1. Enable multi-environment support by uncommenting this line:
 
     ```php
     Dotenv::load(__DIR__.'/../');
     ```
+
+1. Manually register the configuration arrays:
+
+    ```php
+    $app->configure('auth');
+    $app->configure('cache');
+    $app->configure('mail');
+    ```
+
 1. Call `config($key)`
 
 ## Notes
