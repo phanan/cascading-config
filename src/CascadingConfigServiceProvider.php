@@ -24,6 +24,11 @@ class CascadingConfigServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if (file_exists($this->app->getCachedConfigPath())) {
+            // Config is cached, no need to load it again
+            return;
+        }
+
         $env = $this->app->environment();
 
         $envConfigPath = (new SysSplFileInfo(dirname($this->getConfigPath())."/config.$env"))->getRealPath();
