@@ -95,6 +95,8 @@ Fill the configuration into your environment-based config directory (`config.loc
     $app->configure('mail');
     ```
 
+   The configuration arrays must be registered before the service provider is registered.
+
 1. Call `config($key)`
 
 ## Notes
